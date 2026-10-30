@@ -4,11 +4,46 @@
 >
 > Building a strong heart, a capable brain, and a step toward “being human” for the big fish.
 
-DSH-Raising-Plan 围绕 **DeepSeek Harness** 维护一组**单仓库、单职责、可独立安装**的插件。合起来覆盖四个方向：**安全**（动作前问一句）、**记忆**（上下文预算）、**感知**（屏幕 / 音乐 / 视频）、**兴趣**（番剧信息）。
+DSH-Raising-Plan 围绕 **DeepSeek Harness** 维护一组**单仓库、单职责、可独立安装**的插件与基础设施。合起来覆盖五个方向：**安全**（动作前问一句）、**记忆基础设施**（Mnemosyne / Memory Bank）、**感知**（屏幕 / 音乐 / 视频）、**兴趣**（番剧信息）、**桌面角色**（Live2D）。
+
+## 当前主线
+
+| 项目 | 角色 | 仓库 |
+| --- | --- | --- |
+| **Mnemosyne** | 个人认知基础设施 / 2.0 Node 权威实现 | [canyueY/mnemosyne](https://github.com/canyueY/mnemosyne) |
+| **Mnemosyne Memory Bank** | Memory Bank 的数据层说明与边界文档 | [canyueY/mnemosyne-memory-bank](https://github.com/canyueY/mnemosyne-memory-bank) |
+| **肥鱼 Live2D 模型渲染插件** | 把现有 MurasamePet Lite 绑定进 DSH | [canyueY/live2d-renderer-plugin](https://github.com/canyueY/live2d-renderer-plugin) |
+| **dsh-chat-memory-ingest** | 微信/QQ 已导出聊天 → 认知记忆 | [DSH-Raising-Plan/dsh-chat-memory-ingest](https://github.com/DSH-Raising-Plan/dsh-chat-memory-ingest) |
+| **dsh-mnemosyne** | DSH 插件历史发行壳（非 2.0 权威） | [DSH-Raising-Plan/dsh-mnemosyne](https://github.com/DSH-Raising-Plan/dsh-mnemosyne) |
 
 每个组件只做一件事，可以单独装、单独测、单独关；没有共享运行时，也没有“装一个必须装全家桶”的耦合。
 
 ## 每个项目的作用（以及怎么用）
+
+### Mnemosyne —— 个人认知基础设施
+
+Mnemosyne 不是“再做一个记忆库”，而是个人长期认知的权威层：Observation → Evidence → Memory → Recall → Feedback → Evolution，强调证据、时间、状态演化、Memory Bank 边界与 Agent 授权。
+
+- **2.0 Node 权威仓**：[`canyueY/mnemosyne`](https://github.com/canyueY/mnemosyne)
+- **数据层说明仓**：[`canyueY/mnemosyne-memory-bank`](https://github.com/canyueY/mnemosyne-memory-bank)（没有独立数据库，实际数据由 Node 管理）
+- **DSH 旧壳**：[`dsh-mnemosyne`](https://github.com/DSH-Raising-Plan/dsh-mnemosyne)，仅作历史发行与跳转，不作为 2.0 完成度标尺
+
+安装与运行见 Mnemosyne README；独立 Node 与 Memory Bank 的边界已写入 `docs/REPO_BASELINE.md`。
+
+### 肥鱼 Live2D 模型渲染插件 —— 把现有桌宠接进 DSH
+
+不重写 Live2D 渲染器，复用原 MurasamePet Lite 的 PyQt + Cubism + 文字框 + 大肥鱼基础模型；插件负责启动/停止、人物/文字显示模式、文字比例，以及副屏 PerMonitorV2 DPI 修复。
+
+- 仓库：[`canyueY/live2d-renderer-plugin`](https://github.com/canyueY/live2d-renderer-plugin)
+- 发布包：`MurasamePetLite-0.1.0-win64.zip`
+- 安装：`dsh plugin --profile desktop add 'dsh-murasame-pet@github:canyueY/live2d-renderer-plugin#v0.1.0'`
+
+### dsh-chat-memory-ingest —— 微信/QQ 聊天进记忆
+
+把**已经导出**的微信 / QQ 聊天记录同步到 inbox，按主人/他人分流后交给记忆管线；不解密私有库，不内置导出工具。
+
+- 仓库：[`DSH-Raising-Plan/dsh-chat-memory-ingest`](https://github.com/DSH-Raising-Plan/dsh-chat-memory-ingest)
+- 六个工具：`im_status` / `im_sync_wechat` / `im_sync_qq` / `im_preview` / `im_import` / `im_digest_wechat`
 
 ### dsh-agent-gate —— 动作前先问一句
 
@@ -62,6 +97,10 @@ DSH-Raising-Plan 围绕 **DeepSeek Harness** 维护一组**单仓库、单职责
 
 | 组件 | 角色 | 工具 | 运行要求 | 测试 |
 | --- | --- | --- | --- | --- |
+| [`canyueY/mnemosyne`](https://github.com/canyueY/mnemosyne) | 个人认知基础设施 / 2.0 Node | `mnemosyne` CLI · REST/MCP · SDK | Python ≥3.10 | 119 |
+| [`mnemosyne-memory-bank`](https://github.com/canyueY/mnemosyne-memory-bank) | Memory Bank 数据层说明（非运行时） | 文档 / 数据契约 | — | — |
+| [`live2d-renderer-plugin`](https://github.com/canyueY/live2d-renderer-plugin) | 桌面角色：绑定 MurasamePet Lite | `pet_start` / `pet_set_visibility` / `pet_set_scale` | DSH 0.2.x + Windows | — |
+| [`dsh-chat-memory-ingest`](https://github.com/DSH-Raising-Plan/dsh-chat-memory-ingest) | 微信/QQ 聊天导入记忆 | 6 个 `im_*` 工具 | Node ≥20 + Python | — |
 | [`dsh-agent-gate`](https://github.com/DSH-Raising-Plan/dsh-agent-gate) | 免疫系统 / 刹车：fail-closed 权限闸门 | `gate_check` · `gate_check_path` · `gate_policy` | Node ≥20 | 6 |
 | [`dsh-context-budget`](https://github.com/DSH-Raising-Plan/dsh-context-budget) | 海马体：按预算保留人设、成对丢最旧轮次 | `trim_context` · `estimate_context_tokens` | Node ≥20 | 2 |
 | [`dsh-window-locator`](https://github.com/DSH-Raising-Plan/dsh-window-locator) | 眼睛与手：显示器几何 / 前台窗口（物理像素） | `list_monitors` · `foreground_window` · `desktop_snapshot` | **Windows** | 2 |
@@ -99,6 +138,8 @@ dsh plugin --profile web add github:DSH-Raising-Plan/dsh-window-locator#plugin/d
 dsh plugin --profile web add github:DSH-Raising-Plan/dsh-netease-cdp#plugin/dsh
 dsh plugin --profile web add github:DSH-Raising-Plan/dsh-anime-guide#plugin/dsh
 dsh plugin --profile web add github:DSH-Raising-Plan/dsh-video-storyboard-hp#feature/high-performance
+dsh plugin --profile web add github:DSH-Raising-Plan/dsh-chat-memory-ingest#main
+dsh plugin --profile desktop add 'dsh-murasame-pet@github:canyueY/live2d-renderer-plugin#v0.1.0'
 ```
 
 > `dsh-video-storyboard-hp` 的默认分支是 `feature/high-performance`（高性能版演进线），装的时候要显式带上分支名。
@@ -149,4 +190,6 @@ DSH-Raising-Plan maintains small, single-purpose plugins for **DeepSeek Harness*
 - **Perception** — `dsh-window-locator` (Windows monitor geometry / foreground window), `dsh-netease-cdp` (NetEase playback via CDP), `dsh-video-storyboard-hp` (video → addressable storyboard grid);
 - **Interest** — `dsh-anime-guide`: seasonal charts, rankings, and domestic-vs-international contrast.
 
-All six components pass their own test suites (6 / 2 / 2 / 5 / 5 / 237). See each repository's README for install, configuration, tools and limitations.
+Also maintained: **Mnemosyne** (personal cognitive infrastructure, authoritative Node), **Mnemosyne Memory Bank** (data-layer docs), **肥鱼 Live2D 模型渲染插件** (bind the existing desktop pet to DSH), and **dsh-chat-memory-ingest** (WeChat/QQ exported chats → memory).
+
+The six DSH plugin components pass their own test suites (6 / 2 / 2 / 5 / 5 / 237). Mnemosyne and Memory Bank are documented in their own repositories. See each repository's README for install, configuration, tools and limitations.
