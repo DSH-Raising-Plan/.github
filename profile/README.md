@@ -10,7 +10,7 @@ DSH-Raising-Plan 围绕 **DeepSeek Harness** 维护一组**单仓库、单职责
 
 | 项目 | 角色 | 仓库 |
 | --- | --- | --- |
-| **Mnemosyne** | 个人认知基础设施 / 2.0 Node 权威实现 | [canyueY/mnemosyne](https://github.com/canyueY/mnemosyne) |
+| **Mnemosyne** | 个人认知基础设施 / 3.0 Node 权威实现 | [canyueY/dsh-mnemosyne](https://github.com/canyueY/dsh-mnemosyne) |
 | **Mnemosyne Memory Bank** | Memory Bank 的数据层说明与边界文档 | [canyueY/mnemosyne-memory-bank](https://github.com/canyueY/mnemosyne-memory-bank) |
 | **肥鱼 Live2D 模型渲染插件** | 把现有 MurasamePet Lite 绑定进 DSH | [canyueY/live2d-renderer-plugin](https://github.com/canyueY/live2d-renderer-plugin) |
 | **dsh-chat-memory-ingest** | 微信/QQ 已导出聊天 → 认知记忆 | [DSH-Raising-Plan/dsh-chat-memory-ingest](https://github.com/DSH-Raising-Plan/dsh-chat-memory-ingest) |
@@ -24,7 +24,7 @@ DSH-Raising-Plan 围绕 **DeepSeek Harness** 维护一组**单仓库、单职责
 
 Mnemosyne 不是“再做一个记忆库”，而是个人长期认知的权威层：Observation → Evidence → Memory → Recall → Feedback → Evolution，强调证据、时间、状态演化、Memory Bank 边界与 Agent 授权。
 
-- **2.0 Node 权威仓**：[`canyueY/mnemosyne`](https://github.com/canyueY/mnemosyne)
+- **2.0 Node 权威仓**：[`canyueY/dsh-mnemosyne`](https://github.com/canyueY/dsh-mnemosyne)
 - **数据层说明仓**：[`canyueY/mnemosyne-memory-bank`](https://github.com/canyueY/mnemosyne-memory-bank)（没有独立数据库，实际数据由 Node 管理）
 - **DSH 旧壳**：[`dsh-mnemosyne`](https://github.com/DSH-Raising-Plan/dsh-mnemosyne)，仅作历史发行与跳转，不作为 2.0 完成度标尺
 
@@ -97,7 +97,7 @@ Mnemosyne 不是“再做一个记忆库”，而是个人长期认知的权威�
 
 | 组件 | 角色 | 工具 | 运行要求 | 测试 |
 | --- | --- | --- | --- | --- |
-| [`canyueY/mnemosyne`](https://github.com/canyueY/mnemosyne) | 个人认知基础设施 / 2.0 Node | `mnemosyne` CLI · REST/MCP · SDK | Python ≥3.10 | 119 |
+| [`canyueY/dsh-mnemosyne`](https://github.com/canyueY/dsh-mnemosyne) | 个人认知基础设施 / 3.0 Node | `mnemosyne` CLI · REST/MCP · SDK | Python ≥3.10 | 119 |
 | [`mnemosyne-memory-bank`](https://github.com/canyueY/mnemosyne-memory-bank) | Memory Bank 数据层说明（非运行时） | 文档 / 数据契约 | — | — |
 | [`live2d-renderer-plugin`](https://github.com/canyueY/live2d-renderer-plugin) | 桌面角色：绑定 MurasamePet Lite | `pet_start` / `pet_set_visibility` / `pet_set_scale` | DSH 0.2.x + Windows | — |
 | [`dsh-chat-memory-ingest`](https://github.com/DSH-Raising-Plan/dsh-chat-memory-ingest) | 微信/QQ 聊天导入记忆 | 6 个 `im_*` 工具 | Node ≥20 + Python | — |
